@@ -13,8 +13,19 @@ const STATIC_PATH = path.join(__dirname, "../public");
 // Set static directory to serve
 app.use(express.static(STATIC_PATH));
 
-io.on("connection", () => {
+let count = 0;
+
+// socket is an object that contains information about the connection
+io.on("connection", (socket) => {
   console.log("New WebSocket connection");
+
+  socket.emit("countUpdated", count);
+
+  socket.on("increment", () => {
+    count++;
+    // Emit to all connections
+    io.emit("countUpdated", count);
+  });
 });
 
 app.get("", (req, res) => {
