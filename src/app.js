@@ -13,18 +13,16 @@ const STATIC_PATH = path.join(__dirname, "../public");
 // Set static directory to serve
 app.use(express.static(STATIC_PATH));
 
-let count = 0;
+const WELCOME_MESSAGE = "Welcome to the chat!";
 
 // socket is an object that contains information about the connection
 io.on("connection", (socket) => {
   console.log("New WebSocket connection");
 
-  socket.emit("countUpdated", count);
+  socket.emit("message", WELCOME_MESSAGE);
 
-  socket.on("increment", () => {
-    count++;
-    // Emit to all connections
-    io.emit("countUpdated", count);
+  socket.on("sendMessage", (message) => {
+    io.emit("message", message);
   });
 });
 
