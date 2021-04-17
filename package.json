@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ttuom1nen/nodejs-chat-app#readme",
   "dependencies": {
+    "bad-words": "^3.0.4",
     "express": "^4.17.1",
     "socket.io": "^4.0.1"
   },
