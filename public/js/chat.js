@@ -13,5 +13,6 @@ const form = document
   });
 
 socket.on("message", (msg) => {
-  msgBox.innerText += msg;
+  console.log(msg);
+  msgBox.innerHTML = msgBox.innerHTML + "<br/>" + msg;
 });
