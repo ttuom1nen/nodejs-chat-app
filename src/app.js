@@ -31,6 +31,8 @@ io.on("connection", (socket) => {
     }
 
     io.emit("message", message);
+
+    callback();
   });
 
   socket.on("sendLocation", ({ latitude, longitude }, callback) => {

@@ -2,14 +2,22 @@ const socket = io();
 
 const msgBox = document.querySelector("#msgbox");
 const form = document.querySelector("#message-form");
+const formInput = form.querySelector("input");
+const formButton = form.querySelector("button");
 const locationButton = document.querySelector("#send-location");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
+  formButton.setAttribute("disabled", "disabled");
+
   const message = e.target.elements.message.value;
 
   socket.emit("sendMessage", message, (error) => {
+    formButton.removeAttribute("disabled");
+    formInput.value = "";
+    formInput.focus();
+
     if (error) {
       return console.log(error);
     }
