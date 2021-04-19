@@ -3,6 +3,7 @@ const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const Filter = require("bad-words");
+const { generateMessage } = require("./utils/messages");
 
 const app = express();
 const server = http.createServer(app);
@@ -14,13 +15,12 @@ const STATIC_PATH = path.join(__dirname, "../public");
 // Set static directory to serve
 app.use(express.static(STATIC_PATH));
 
-const WELCOME_MESSAGE = "Welcome to the chat!";
-
 // socket is an object that contains information about the connection
 io.on("connection", (socket) => {
   console.log("New WebSocket connection");
 
-  socket.emit("message", WELCOME_MESSAGE);
+  socket.emit(generateMessage("Welcome to the chat!"));
+
   socket.broadcast.emit("message", "A new user has joined");
 
   socket.on("sendMessage", (message, callback) => {
