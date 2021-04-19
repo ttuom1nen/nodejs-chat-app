@@ -1,6 +1,5 @@
 const socket = io();
 
-const msgBox = document.querySelector("#msgbox");
 const form = document.querySelector("#message-form");
 const formInput = form.querySelector("input");
 const formButton = form.querySelector("button");
@@ -31,10 +30,13 @@ locationButton.addEventListener("click", () => {
     return alert("Geolocation is not supported by your browser");
   }
 
+  locationButton.setAttribute("disabled", "disabled");
+
   navigator.geolocation.getCurrentPosition((position) => {
     const { latitude, longitude } = position.coords;
 
     socket.emit("sendLocation", { latitude, longitude }, () => {
+      locationButton.removeAttribute("disabled");
       console.log("Location sent!");
     });
   });
