@@ -1,9 +1,21 @@
 const socket = io();
 
+// Elements
 const form = document.querySelector("#message-form");
 const formInput = form.querySelector("input");
 const formButton = form.querySelector("button");
 const locationButton = document.querySelector("#send-location");
+const messages = document.querySelector("#messages");
+
+// Templates
+const messageTemplate = document.querySelector("#message-template").innerHTML;
+
+socket.on("message", (message) => {
+  const html = Mustache.render(messageTemplate, {
+    message,
+  });
+  messages.insertAdjacentHTML("beforeend", html);
+});
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -40,9 +52,4 @@ locationButton.addEventListener("click", () => {
       console.log("Location sent!");
     });
   });
-});
-
-socket.on("message", (msg) => {
-  console.log(msg);
-  msgBox.innerHTML = msgBox.innerHTML + "<br/>" + msg;
 });
